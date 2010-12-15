@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>	
+	<title>jQuery Carousel Demo</title>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+   <!-- <script type="text/javascript" src="http://jquery-carousel.googlecode.com/svn/trunk/jquery-carousel.js"></script>-->
+    <script type="text/javascript" src="j.js"></script>
+	<link rel="stylesheet" type="text/css" href="http://style.alibaba.com/css/4v/wholesale/buyer/reset.css?v=3.0.css"/>
+</head>
+<body>
+<style type="text/css">
+body{background:#000;padding:50px;}
+.moduel{ margin:10px auto;width:550px;}
+.m3{height:25px;color:#fff;line-height:25px;font:bold 16px Verdana;}
+</style>
+
+<div class="moduel">
+	<h3 class="m3">jQuery carousel effect</h3>
+	<style type="text/css">
+	.productGroupOthersRind{width:550px;height:150px;padding:0x;margin:10px auto;overflow:hidden;}
+	.productGroupOthersCotainer{height:1100px;}
+	.itemViewerItem{overflow:hidden;width:550px;height:150px;}
+	#singleNavContainerId{bottom:10px;right:15px;z-index:100;}
+	#singleNavContainerId a{display:block;background:#fff;font-weight:bold;width:18px;height:18px;font-size:11px;color:#b4b4b4;line-height:18px;border:1px solid #b4b4b4;margin:0 0 0 5px;float:left;text-align:center;text-decoration:none;}
+	#singleNavContainerId a.current{color:#fff;background:#abcdef;border:none;width:20px;height:20px;}
+	#precentArea{position:absolute;bottom:5px;left:10px;background:#abcdef;font-weight:bold;height:20px;left:10px;line-height:20px;padding:0 5px;color:#666;}
+	#singleNavContainerId_index{margin-left:5px;color:#ff1234;}
+	.itemViewerItem a{display:block;position:relative;}
+	.itemViewerItem canvas{position:absolute;z-index:100;}
+	</style>
+	 <div class="productGroupOthersRind" id="singleToggleRind">
+		<div class="productGroupOthersCotainer" id="singleToggleContainer">				
+			<div class="itemViewerItem">
+				<a href="http://www.aliexpress.com/activities/2010/valentine/home.html" target="_blank">
+					<img src="img/2.jpg" alt="Valentine's Day" width="550" height="150" />
+				</a>
+			</div>					
+			<div class="itemViewerItem">
+				<a href="http://www.aliexpress.com/activities/feature/shipping_promo.html" target="_blank">
+					<img src="img/1.jpg" alt="Get delivery as low as US$3, save big on destinations worldwide" width="550" height="150" />
+				</a>
+			</div>
+			<div class="itemViewerItem">
+				<a href="http://www.aliexpress.com/activities/2010/valentine/packaging.html" target="_blank">
+					<img src="img/3.jpg" alt="Gift Packaging" width="550" height="150" />
+
+				</a>
+			</div>					
+			<div class="itemViewerItem">
+				<a href="http://www.aliexpress.com/activities/product/theme/xmas.html" target="_blank">
+					<img src="img/4.jpg" alt="Christmas Channel" width="550" height="150" />
+				</a>
+			</div>
+	   </div>
+	</div>
+
+	<script type="text/javascript">
+		$("#singleToggleRind").carousel({
+			itemContainer : "#singleToggleContainer",			 //滚动内容容器
+			navContainer : "#singleNavContainerId",				 //导航容器的id
+			autoScroll :0,									     //自动运行
+			showCount : 1,										 //显示的内容数
+			delayTime : 8000,									 //动画切换间隔时间
+			orientation : "left" ,
+			scrollCount : 1,									 //每次滚动的个数
+			useNav :true ,										 //是否使用导航
+			animTime  : 0.4,									
+			navEvent : "mouseover",								 //导航触发事件
+			navTriggerTime : 300,
+			animTime : 500,
+			easeEffect : "easeInCubic" ,
+			customChange  : opacityChange ,
+			customInit : opacityInit ,
+			orientation: "bottom"	//left|right|top|bottom 可以使用四种方向，如果top则为从上往下滚动
+		});
+	</script>
+</div>
+
+</body>
+</html>
+					
