@@ -4,79 +4,126 @@
 	<title>jQuery Carousel Demo</title>
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-   <!-- <script type="text/javascript" src="http://jquery-carousel.googlecode.com/svn/trunk/jquery-carousel.js"></script>-->
-    <script type="text/javascript" src="j.js"></script>
+    <script type="text/javascript" src="../jquery.carousel.js"></script>
 	<link rel="stylesheet" type="text/css" href="http://style.alibaba.com/css/4v/wholesale/buyer/reset.css?v=3.0.css"/>
 </head>
 <body>
 <style type="text/css">
-body{background:#000;padding:50px;}
+body{background:#e8e0c0;padding:50px;}
 .moduel{ margin:10px auto;width:550px;}
-.m3{height:25px;color:#fff;line-height:25px;font:bold 16px Verdana;}
+.m3{height:25px;color:#2D3536;line-height:25px;font:bold 16px Verdana;margin-bottom:20px;}
+#carousel-opa{margin-top:50px;}
+.box{width:550px;margin:50px auto;padding:20px;background:#fff;-moz-border-radius:10px;-webkit-border-radius:10px;}
+.feature h3{margin-bottom:10px;}
+.feature li{list-style:circle inside;height:20px;line-height:20px;margin:5px 0;}
+
+.carousel-wp{width:590px;height:200px;overflow:hidden;border:1px solid #fff;position:relative;}
+.control-nav{margin:10px auto;width:590px;text-align:center;}
+.control-nav a{display:inline-block;height:22px;width:22px;border:none;background:url(images/bullets.png) no-repeat 0 0;cursor:pointer;}
+.control-nav a:focus{outline:none;}
+.control-nav a.current{background-position:0 -22px;}
+* html .control-nav a{background:none;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/bullets1.png', sizingMethod='scale');}
+* html .control-nav a.current{filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/bullets2.png', sizingMethod='scale');}
 </style>
 
 <div class="moduel">
-	<h3 class="m3">jQuery carousel effect</h3>
-	<style type="text/css">
-	.productGroupOthersRind{width:550px;height:150px;padding:0x;margin:10px auto;overflow:hidden;}
-	.productGroupOthersCotainer{height:1100px;}
-	.itemViewerItem{overflow:hidden;width:550px;height:150px;}
-	#singleNavContainerId{bottom:10px;right:15px;z-index:100;}
-	#singleNavContainerId a{display:block;background:#fff;font-weight:bold;width:18px;height:18px;font-size:11px;color:#b4b4b4;line-height:18px;border:1px solid #b4b4b4;margin:0 0 0 5px;float:left;text-align:center;text-decoration:none;}
-	#singleNavContainerId a.current{color:#fff;background:#abcdef;border:none;width:20px;height:20px;}
-	#precentArea{position:absolute;bottom:5px;left:10px;background:#abcdef;font-weight:bold;height:20px;left:10px;line-height:20px;padding:0 5px;color:#666;}
-	#singleNavContainerId_index{margin-left:5px;color:#ff1234;}
-	.itemViewerItem a{display:block;position:relative;}
-	.itemViewerItem canvas{position:absolute;z-index:100;}
-	</style>
-	 <div class="productGroupOthersRind" id="singleToggleRind">
-		<div class="productGroupOthersCotainer" id="singleToggleContainer">				
-			<div class="itemViewerItem">
-				<a href="http://www.aliexpress.com/activities/2010/valentine/home.html" target="_blank">
-					<img src="img/2.jpg" alt="Valentine's Day" width="550" height="150" />
+	<h3 class="m3"><a href="http://fordifferent.com" ></>Z.J.T Blog</a></h3>
+	<h3 class="m3">jQuery carousel plugin (Slider)</h3>
+	
+	<!-- first demo -->
+	<div id="carousel-wp" class="carousel-wp">
+		<ul id="item-wp">
+			<li class="item" >
+				<a href="http://fulfillment.aliexpress.com/promotion/index.html">
+					<img width="590" height="200" src="http://i02.i.aliimg.com/images/cms/upload/wholesale/home_banner/2011/01/590x200_110120_fulfillment.png" alt="Fulfillment by AliExpress">
 				</a>
-			</div>					
-			<div class="itemViewerItem">
-				<a href="http://www.aliexpress.com/activities/feature/shipping_promo.html" target="_blank">
-					<img src="img/1.jpg" alt="Get delivery as low as US$3, save big on destinations worldwide" width="550" height="150" />
+			</li>
+			<li class="item" >
+				<a href="http://www.aliexpress.com/activities/customized/detail.html">
+					<img width="590" height="200" src="http://img.alibaba.com/images/cms/upload/wholesale/home_banner/2010/q4/590x200_101230_customized_houseware_2.jpg" alt="Houseware Customization Center">
 				</a>
-			</div>
-			<div class="itemViewerItem">
-				<a href="http://www.aliexpress.com/activities/2010/valentine/packaging.html" target="_blank">
-					<img src="img/3.jpg" alt="Gift Packaging" width="550" height="150" />
-
+			</li>
+			<li class="item" >
+				<a href="http://www.aliexpress.com/activities/OutdoorSportsGearforSpring/index.html">
+					<img width="590" height="200"  src="http://img.alibaba.com/images/cms/upload/wholesale/home_banner/2011/01/590x200_20110119_outdoor_sports_gea_for_spring.jpg" alt="Outdoor Sports Gear for Spring">
 				</a>
-			</div>					
-			<div class="itemViewerItem">
-				<a href="http://www.aliexpress.com/activities/product/theme/xmas.html" target="_blank">
-					<img src="img/4.jpg" alt="Christmas Channel" width="550" height="150" />
-				</a>
-			</div>
-	   </div>
+			</li>
+		</ul>
 	</div>
-
+	<div class="control-nav" id="control-nav">
+		<a href="javascript:;"></a>
+		<a href="javascript:;"></a>
+		<a href="javascript:;"></a>
+	</div>
 	<script type="text/javascript">
-		$("#singleToggleRind").carousel({
-			itemContainer : "#singleToggleContainer",			 //滚动内容容器
-			navContainer : "#singleNavContainerId",				 //导航容器的id
-			autoScroll :0,									     //自动运行
-			showCount : 1,										 //显示的内容数
-			delayTime : 8000,									 //动画切换间隔时间
-			orientation : "left" ,
-			scrollCount : 1,									 //每次滚动的个数
-			useNav :true ,										 //是否使用导航
-			animTime  : 0.4,									
-			navEvent : "mouseover",								 //导航触发事件
-			navTriggerTime : 300,
-			animTime : 500,
-			easeEffect : "easeInCubic" ,
-			customChange  : opacityChange ,
-			customInit : opacityInit ,
-			orientation: "bottom"	//left|right|top|bottom 可以使用四种方向，如果top则为从上往下滚动
+		$("#carousel-wp").carousel({
+			itemContainer : "#item-wp",			 //滚动内容容器
+			navContainer : "#control-nav" ,
+			animTime  : 0.4,	
+			navTriggerTime : 1000,
+			easeEffect : "easeOutCirc" ,	
+			orientation : "top"
 		});
 	</script>
+	<!-- end first demo -->
+	
+	<!-- second demo -->
+	<div class="carousel-wp" id="carousel-opa">
+		<ul id="item-opa">
+			<li class="item" >
+				<a href="http://fulfillment.aliexpress.com/promotion/index.html">
+					<img width="590" height="200" src="http://i02.i.aliimg.com/images/cms/upload/wholesale/home_banner/2011/01/590x200_110120_fulfillment.png" alt="Fulfillment by AliExpress">
+				</a>
+			</li>
+			<li class="item" >
+				<a href="http://www.aliexpress.com/activities/customized/detail.html">
+					<img width="590" height="200" src="http://img.alibaba.com/images/cms/upload/wholesale/home_banner/2010/q4/590x200_101230_customized_houseware_2.jpg" alt="Houseware Customization Center">
+				</a>
+			</li>
+			<li class="item" >
+				<a href="http://www.aliexpress.com/activities/OutdoorSportsGearforSpring/index.html">
+					<img width="590" height="200"  src="http://img.alibaba.com/images/cms/upload/wholesale/home_banner/2011/01/590x200_20110119_outdoor_sports_gea_for_spring.jpg" alt="Outdoor Sports Gear for Spring">
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="control-nav" id="control-opa">
+		<a href="javascript:;"></a>
+		<a href="javascript:;"></a>
+		<a href="javascript:;"></a>
+	</div>
+	<script type="text/javascript">
+		$("#carousel-opa").carousel({
+			itemContainer : "#item-opa",			
+			navContainer : "#control-opa" ,
+			animTime  : 0.4,	
+			navTriggerTime : 1000,
+			easeEffect : "easeOutCirc" ,
+			customChange : opacityChange,						
+			customInit : opacityInit
+		});
+	</script>
+	<!-- end second demo -->
+	
+	<!-- features -->
+	<div class="feature box">
+		<h3>支持特性 (v 1.0)：</h3>
+		<ul>
+			<li>内置10多个动画切换算法以便按需配置</li>
+			<li>支持自定义切换方式（默认提供透明度切换&滑动切换）</li>
+			<li>可自动生成数字导航区，或者通过配置提供</li>
+			<li>支持前后导航按钮，添加不可用状态判断</li>
+			<li>可配置导航触发动画的播放时间、自动播放动画的播放时间</li>
+			<li>鼠标放置于内容区域内停止自动播放</li>
+			<li>为内容自动计算高度宽度并设置必要的样式属性，通过配置支持4个方向的滚动</li>
+			
+		</ul>
+	</div>
+	<div class="box">
+		jquery.carousel@github <a href="https://github.com/aobo711/jQuery-Carousel">了解更多</a>
+		<a href="http://fordifferent.com" style="float:right">back to blog</a>
+	</div>
 </div>
-
 </body>
 </html>
 					
