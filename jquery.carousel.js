@@ -140,7 +140,7 @@ jQuery.extend( jQuery.easing,
 });
 
 /**
- * jQuery.carousel
+ * a simple jquery carousel plugin
  * More information: https://github.com/aobo711/jQuery-Carousel
  * 
  * Open source under the BSD License
@@ -148,7 +148,7 @@ jQuery.extend( jQuery.easing,
  * 
  * This is a jQuery animation plugin that focus on carousel effects,
  * especialy for banner showcases, it use changing opacity smoothly
- * as default effect, and supports any other effects by customer function
+ * as default effect, and supports any other effects through custome function
  * 
  */
 (function($) {
@@ -168,7 +168,7 @@ jQuery.extend( jQuery.easing,
 					navTriggerTime : 200,								//the animation triggered by switching navigation
 					orientation : "left" ,								//The direction of animation,up|down|left|right
 					scrollCount : 1 ,									//animation steps 
-					showCount : 5 ,										//The amount of content displayed on the screen
+					showCount : 1 ,										//The amount of content displayed on the screen
 					useNav : false,										//Whether to use the navigation small button,configuration through a custom HTML generator{navHTMLBuilder} 
 					navCurrentClass : "current",						//Current navigation buttons classname
 					navContainer : "#navContainerId",					//navigation dom id
@@ -183,26 +183,44 @@ jQuery.extend( jQuery.easing,
 			
 			//start main functions
 			//initialization
+			
+			//the carousel container
 			wrapper = self.css("position","relative") ,
+			//the contents, and it's necessary to set position to relative 
 			itemContainer = $(config.itemContainer,self).css("position","relative"),
+			//an array, all content item collections
 			items = self.items = itemContainer.children(),
+			//navigation wrapper
 			nav = $(config.navContainer) ,
-			navItems = [],
+			//navigation items array
+			navItems = nav.children(),
+			//the count of items
 			count = items.length,
+			//the height of an content item
 			singleHeight = $(items[0]).outerHeight(),
-			singleWidth = $(items[0]).outerWidth(),	
+			//the width of an width item
+			singleWidth = $(items[0]).outerWidth(),
+			//preview button element	
 			prevBtn = $(config.prevBtn),
+			//next button element
 			nextBtn = $(config.nextBtn),
+			//animation params using for controling orientation
 			animParams = self.animParams = {
 				left : { relatedProp : "left" ,opposite :"right"},
 				right : { relatedProp : "left" , opposite :"left"},
 				top : { relatedProp : "top" , opposite :"bottom"},
 				bottom : { relatedProp : "top" , opposite :"top"}
 			};
+			//cache the current animation index
 			self.index = config.defaultIndex;
 			if(config.customInit){
 				config.customInit.call(self);
-			}	
+			}
+			/**
+			 * change the carousel to  specific status
+			 * it will call interface config.customChange 
+			 * @param {int} i - item index
+			 */	
 			self.changeTo = function(i){
 				if(!checkIndex(config.orientation,i) || self.stopFlag){
 					return;
@@ -213,6 +231,7 @@ jQuery.extend( jQuery.easing,
 				navTo(i);
 				refreshNavBtn(i);
 			};
+			//deal with orientation options
 			if(animParams[config.orientation].relatedProp === "left"){
 				itemContainer.css("width" , singleWidth * count ? (singleWidth * count + "px") : "auto");
 				items.css("float","left");
@@ -235,6 +254,13 @@ jQuery.extend( jQuery.easing,
 				navItems.bind(config.navEvent ,function(){
 					var navItem = this,
 						index = parseInt(navItem.id.replace(config.navContainer + "-",""));
+						if(isNaN(index)){
+							for(var i = navItems.length;i-- ;){
+								if(navItems[i] === navItem){
+									index = i;
+								}
+							}
+						}
 						self.changeTo(index,1);
 				}).bind("mouseover",function(){
 					self.stopFlag = 1;
@@ -248,6 +274,7 @@ jQuery.extend( jQuery.easing,
 				self.stopFlag = 0;
 			});
 			
+			//if you set 'btnNav' true, it needs to live some event to the buttons
 			if(config.btnNav){
 				prevBtn.bind("click" , function(){
 					if(this.className.indexOf(config.prevDisableClass) >= 0) return;
@@ -271,18 +298,25 @@ jQuery.extend( jQuery.easing,
 			}
 			//end live events
 			
+			/**
+			 * build navigation when optiobn 'useNav' is true 
+			 */
 			function buildNav(){
 				var c = self.config, a =[],b =[];
 				c.navContainer = c.navContainer.replace("#","");
 				for(var x = 0;x < count;x++){
 					a.push("<a href=\"javascript:void(0)\" "+ (x > count - c.showCount ? "class=\"unreachable\"" : "") + " id=\"" + config.navContainer + "-" + x +"\">"+ (x + 1)+ "</a>");
 				}
-				var nav = $("<div></div>").attr("id",c.navContainer).css("position","absolute").html(a.join(""));
+				var nav = $('<div id="' + c.navContainer + '"></div>').css("position","absolute").html(a.join(""));
+				
 				wrapper.append(nav);
 				return nav;
 			}
 			
-			
+			/**
+			 * navigate to the specific item
+			 * @param {int} i - item index
+			 */
 			function navTo(i){
 				if(nav.length == 0) return;
 				navItems.eq(self.index).removeClass(config.navCurrentClass);
@@ -290,6 +324,11 @@ jQuery.extend( jQuery.easing,
 				self.index = i;
 			};
 			
+			/**
+			 * an default function used in switching the contents by moving positions  
+			 * 
+			 * @param {int} i - item index
+			 */
 			function defaultChange(i){
 				if( self.stopFlag) {return 0;}
 				var parmas = animParams[config.orientation],
@@ -302,6 +341,7 @@ jQuery.extend( jQuery.easing,
 				itemContainer.animate(animProperty , animTime,config.easeEffect);
 			}
 			
+			//calculate the item index, it's necessary to make sure the index is legal
 			function calIndex(i,flag){
 				var s = parseInt(config.scrollCount);
 				if(flag){
@@ -316,10 +356,11 @@ jQuery.extend( jQuery.easing,
 				return	index >= count - config.showCount ? count - config.showCount  : (index < 0 ? 0 : index);		
 			}
 			
-			//check if it needs to play animation
+			//check whether it needs to play animation
 			function checkIndex(o,index){
 				return count - index >= config.showCount && index >= 0 && index !== self.index;
 			}
+			
 			function refreshNavBtn(index){
 				var c =this.config,t=this;
 				if(index == 0){
@@ -341,7 +382,7 @@ jQuery.extend( jQuery.easing,
 
 
 /**
- * some carousel effect functions
+ * an carousel effect, uses changing opacity as transition effect
  */
 function opacityChange(i){
 	var self = this, 
@@ -353,15 +394,17 @@ function opacityChange(i){
 		targetItem = $(self.items[i]);
 	
 	currentItem.css({zIndex: 1});
-//	currentItem.stop().animate(
-//		{opacity : 0}, animTime*0.5 , config.easeEffect		
-//	).css({zIndex: 1});
-	targetItem.stop().animate(
+	targetItem.stop().css({
+		opacity : 0		
+	}).animate(
 		{opacity : 1}, animTime , config.easeEffect	,function(){
 			currentItem.css({opacity : 0});
 		}	
 	).css({zIndex : 2});
 }
+/**
+ * necessary initialize function for 'opacityChange'
+ */
 function opacityInit (){
 	var self = this;
 	self.items.css({
