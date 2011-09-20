@@ -148,7 +148,7 @@ jQuery.extend( jQuery.easing,
  * 
  * This is a jQuery animation plugin that focus on carousel effects,
  * especialy for banner showcases, it use changing opacity smoothly
- * as default effect, and supports any other effects through custome function
+ * as default effect, and supports any other effects through custom function
  * 
  */
 (function($) {
@@ -181,130 +181,21 @@ jQuery.extend( jQuery.easing,
 			
 			self = this,
 			
-			//start main functions
-			//initialization
-			
-			//the carousel container
-			wrapper = self.css("position","relative") ,
-			//the contents, and it's necessary to set position to relative 
-			itemContainer = $(config.itemContainer,self).css("position","relative"),
-			//an array, all content item collections
-			items = self.items = itemContainer.children(),
-			//navigation wrapper
-			nav = $(config.navContainer) ,
-			//navigation items array
-			navItems = nav.children(),
-			//the count of items
-			count = items.length,
-			//the height of an content item
-			singleHeight = $(items[0]).outerHeight(),
-			//the width of an width item
-			singleWidth = $(items[0]).outerWidth(),
-			//preview button element	
-			prevBtn = $(config.prevBtn),
-			//next button element
-			nextBtn = $(config.nextBtn),
-			//animation params using for controling orientation
-			animParams = self.animParams = {
-				left : { relatedProp : "left" ,opposite :"right"},
-				right : { relatedProp : "left" , opposite :"left"},
-				top : { relatedProp : "top" , opposite :"bottom"},
-				bottom : { relatedProp : "top" , opposite :"top"}
-			};
-			//cache the current animation index
-			self.index = config.defaultIndex;
-			if(config.customInit){
-				config.customInit.call(self);
-			}
-			/**
-			 * change the carousel to  specific status
-			 * it will call interface config.customChange 
-			 * @param {int} i - item index
-			 */	
-			self.changeTo = function(i){
-				if(!checkIndex(config.orientation,i) || self.stopFlag){
-					return;
-				}
-				if(self.index == i && i!= 0) return;
-				i = i >= count ? 0 : i ;
-				config.customChange.call(self,i,arguments[1]);
-				navTo(i);
-				refreshNavBtn(i);
-			};
-			//deal with orientation options
-			if(animParams[config.orientation].relatedProp === "left"){
-				itemContainer.css("width" , singleWidth * count ? (singleWidth * count + "px") : "auto");
-				items.css("float","left");
-			}else {				
-				itemContainer.css("height" , singleHeight * count ? (singleHeight * config.count + "px") : "auto");
-			}
-			
-			if(nav.length == 0 & config.useNav){
-				nav = buildNav();
-				navItems = nav.children();				
-			}
-			self.changeTo(config.defaultIndex);
-			
-			navTo(self.index);
-			//end initialization
-			refreshNavBtn(self.index);
-			
-			//live events
-			if(navItems.length != 0){
-				navItems.bind(config.navEvent ,function(){
-					var navItem = this,
-						index = parseInt(navItem.id.replace(config.navContainer + "-",""));
-						if(isNaN(index)){
-							for(var i = navItems.length;i-- ;){
-								if(navItems[i] === navItem){
-									index = i;
-								}
-							}
-						}
-						self.changeTo(index,1);
-				}).bind("mouseover",function(){
-					self.stopFlag = 1;
-				}).bind("mouseout",function(){
-					self.stopFlag = 0;	
-				});
-			}
-			itemContainer.bind("mouseover",function(){
-				self.stopFlag = 1;
-			}).bind("mouseout",function(){
-				self.stopFlag = 0;
-			});
-			
-			//if you set 'btnNav' true, it needs to live some event to the buttons
-			if(config.btnNav){
-				prevBtn.bind("click" , function(){
-					if(this.className.indexOf(config.prevDisableClass) >= 0) return;
-					var prevIndex = calIndex(self.index,1);
-					self.changeTo(prevIndex);
-					refreshNavBtn(prevIndex);
-				});
-				nextBtn.bind("click" , function(){
-					if(this.className.indexOf(config.nextDisableClass) >= 0) return;
-					var nextIndex = calIndex(self.index,0);
-					self.changeTo(nextIndex);
-					refreshNavBtn(nextIndex);
-				});
-			}
-			
-			//bind auto scroll
-			if(config.autoScroll){
-				var interval = setInterval(function(){
-					self.changeTo(calIndex(self.index,true));
-				},config.delayTime);
-			}
-			//end live events
+            //animation params using for controling orientation
+            animParams = self.animParams = {
+                left : { relatedProp : "left" ,opposite :"right"},
+                right : { relatedProp : "left" , opposite :"left"},
+                top : { relatedProp : "top" , opposite :"bottom"},
+                bottom : { relatedProp : "top" , opposite :"top"}
+            };
 			
 			/**
-			 * build navigation when optiobn 'useNav' is true 
+			 * build navigation when option 'useNav' is true 
 			 */
 			function buildNav(){
 				var c = self.config, a =[],b =[];
 				c.navContainer = c.navContainer.replace("#","");
-				for(var x = 0;x < count;x++){
+				for(var x = 0;x < count; x++){
 					a.push("<a href=\"javascript:void(0)\" "+ (x > count - c.showCount ? "class=\"unreachable\"" : "") + " id=\"" + config.navContainer + "-" + x +"\">"+ (x + 1)+ "</a>");
 				}
 				var nav = $('<div id="' + c.navContainer + '"></div>').css("position","absolute").html(a.join(""));
@@ -374,47 +265,175 @@ jQuery.extend( jQuery.easing,
 					prevBtn.removeClass(config.prevDisableClass);
 				}
 			}
+			
+			
+            /**
+             * change the carousel to  specific status
+             * it will call interface config.customChange 
+             * @param i{int} - item index
+             */ 
+            function changeTo(i){
+                if(!checkIndex(config.orientation,i) || self.stopFlag){
+                    return;
+                }
+                if(self.index == i && i!= 0) return;
+                i = i >= count ? 0 : i ;
+                config.customChange.call(self, i, arguments[1]);
+                navTo(i);
+                refreshNavBtn(i);
+            };
+            
 			//end main functions
-			return self;
+			return this.each(function(){
+			    
+                wrapper = $(this),
+                //start main functions
+                //initialization
+                
+                //the carousel container
+                wrapper = wrapper.css("position","relative") ,
+                
+                //the contents, and it's necessary to set position to relative 
+                itemContainer = $(config.itemContainer,wrapper).css("position","relative"),
+                
+                //an array, all content item collections
+                items = self.items = itemContainer.children(),
+                
+                //navigation wrapper
+                nav = $(config.navContainer) ,
+                
+                //navigation items array
+                navItems = nav.children(),
+                
+                //the count of items
+                count = items.length,
+                
+                //the height of an content item
+                singleHeight = $(items[0]).outerHeight(),
+                
+                //the width of an width item
+                singleWidth = $(items[0]).outerWidth(),
+                
+                //preview button element    
+                prevBtn = $(config.prevBtn),
+                
+                //next button element
+                nextBtn = $(config.nextBtn),
+                
+                //cache the current animation index
+                self.index = config.defaultIndex;
+                if(config.customInit){
+                    config.customInit.call(self);
+                }
+                
+                //deal with orientation options
+                if(animParams[config.orientation].relatedProp === "left"){
+                    itemContainer.css("width" , singleWidth * count ? (singleWidth * count + "px") : "auto");
+                    items.css("float","left");
+                }else {             
+                    itemContainer.css("height" , singleHeight * count ? (singleHeight * config.count + "px") : "auto");
+                }
+                
+                if(nav.length == 0 & config.useNav){
+                    nav = buildNav();
+                    navItems = nav.children();              
+                }
+                changeTo(config.defaultIndex);
+                
+                navTo(self.index);
+                //end initialization
+                refreshNavBtn(self.index);
+                
+                //live events
+                if(navItems.length != 0){
+                    navItems.bind(config.navEvent ,function(){
+                        var navItem = this,
+                            index = parseInt(navItem.id.replace(config.navContainer + "-",""));
+                            if(isNaN(index)){
+                                for(var i = navItems.length;i-- ;){
+                                    if(navItems[i] === navItem){
+                                        index = i;
+                                    }
+                                }
+                            }
+                            changeTo(index,1);
+                    }).hover(function(){
+                        self.stopFlag = 1;
+                    },function(){
+                        self.stopFlag = 0;
+                    });
+                }
+                itemContainer.bind("mouseover",function(){
+                    self.stopFlag = 1;
+                }).bind("mouseout",function(){
+                    self.stopFlag = 0;
+                });
+                
+                //if you set 'btnNav' true, it needs to live some event to the buttons
+                if(config.btnNav){
+                    prevBtn.bind("click" , function(){
+                        if(this.className.indexOf(config.prevDisableClass) >= 0) return;
+                        var prevIndex = calIndex(self.index,1);
+                        changeTo(prevIndex);
+                        refreshNavBtn(prevIndex);
+                    });
+                    nextBtn.bind("click" , function(){
+                        if(this.className.indexOf(config.nextDisableClass) >= 0) return;
+                        var nextIndex = calIndex(self.index,0);
+                        changeTo(nextIndex);
+                        refreshNavBtn(nextIndex);
+                    });
+                }
+                
+                //bind auto scroll
+                if(config.autoScroll){
+                    var interval = setInterval(function(){
+                        changeTo(calIndex(self.index,true));
+                    },config.delayTime);
+                }
+                //end live events
+			});
 		}
 	}); 
+	
+    /**
+     * an carousel effect, uses changing opacity as transition effect
+     */
+    window.opacityChange = function(i){
+        var self = this, 
+            animParams = self.animParams,
+            config = self.config;
+        if( self.stopFlag) {return 0;}
+            animTime = arguments[1] ? config.navTriggerTime : config.animTime,
+            currentItem = $(self.items[self.index]),
+            targetItem = $(self.items[i]);
+        
+        currentItem.css({zIndex: 1});
+        targetItem.stop().css({
+            opacity : 0     
+        }).animate(
+            {opacity : 1}, animTime , config.easeEffect ,function(){
+                currentItem.css({opacity : 0});
+            }   
+        ).css({zIndex : 2});
+    }
+    
+    /**
+     * necessary initialize function for 'opacityChange'
+     */
+    window.opacityInit = function (){
+        var self = this;
+        self.items.css({
+            position: "absolute",
+            zIndex : 1,
+            opacity : 0
+        });
+        $(self.items[self.config.defaultIndex]).css({
+            opacity : 1,
+            zIndex : 2
+        });
+    }
 })(jQuery);
 
 
-/**
- * an carousel effect, uses changing opacity as transition effect
- */
-function opacityChange(i){
-	var self = this, 
-		animParams = self.animParams,
-		config = self.config;
-	if( self.stopFlag) {return 0;}
-		animTime = arguments[1] ? config.navTriggerTime : config.animTime,
-		currentItem = $(self.items[self.index]),
-		targetItem = $(self.items[i]);
-	
-	currentItem.css({zIndex: 1});
-	targetItem.stop().css({
-		opacity : 0		
-	}).animate(
-		{opacity : 1}, animTime , config.easeEffect	,function(){
-			currentItem.css({opacity : 0});
-		}	
-	).css({zIndex : 2});
-}
-/**
- * necessary initialize function for 'opacityChange'
- */
-function opacityInit (){
-	var self = this;
-	self.items.css({
-		position: "absolute",
-		zIndex: 1 ,
-		opacity : 0
-	});
-	$(self.items[self.config.defaultIndex]).css({
-		opacity : 1,
-		zIndex : 2
-	});
-}
 
